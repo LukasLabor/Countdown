@@ -1,6 +1,6 @@
 <template>
-  <card class="flex flex-1 gap-2 min-h-0 text-white">
-    <card class="inline-block border flex flex-col p-0">
+  <card class="flex flex-1 gap-2 min-h-full text-white">
+    <!-- <card class="inline-block border flex flex-col p-0">
       <p class="text-2xl p-3 pb-2">Presets (m)</p>
       <draggable item-key="index" v-model="settings.presets" handle=".handle"
                  class="flex flex-col gap-2 overflow-y-scroll items-center pb-1">
@@ -11,44 +11,44 @@
         </template>
       </draggable>
       <s-button tiny class="m-3" type="info" @click="addPreset">Add</s-button>
-    </card>
-    <card class="inline-block border flex flex-col">
-      <p class="text-2xl">Timer</p>
-      <check-box id="blackAtReset" v-model="settings.blackAtReset">Black at reset</check-box>
-      <check-box id="stopTimerAtZero" v-model="settings.stopTimerAtZero">Stop timer at 0</check-box>
-      <check-box id="showHours" v-model="settings.showHours">Show hours</check-box>
-      <check-box id="pulseAtZero" v-model="settings.pulseAtZero">Pulse at zero</check-box>
-      <check-box id="timerAlwaysOnTop" v-model="settings.timerAlwaysOnTop">Window always on top</check-box>
-      <p class="text-sm mt-2">Yellow Bar at</p>
+    </card> -->
+    <card class="border flex flex-col">
+      <p class="text-2xl">Countdown</p>
+      <check-box id="blackAtReset" v-model="settings.blackAtReset">Schwarz beim Zurücksetzen</check-box>
+      <check-box id="stopTimerAtZero" v-model="settings.stopTimerAtZero">Countdown bei 0 stoppen</check-box>
+      <check-box id="showHours" v-model="settings.showHours">Zeige Stunden</check-box>
+      <check-box id="pulseAtZero" v-model="settings.pulseAtZero">Bei 0 pulsieren</check-box>
+      <check-box id="timerAlwaysOnTop" v-model="settings.timerAlwaysOnTop">Fenster immer als oberstes</check-box>
+      <p class="text-sm mt-2">Gelbe Anzeige bei</p>
       <input-with-button
         @click="updateYellowOption"
         @input="updateYellowValue"
         :model-value="settings.yellowAtOption === 'minutes' ? settings.yellowAtMinutes : settings.yellowAtPercent">
         {{ settings.yellowAtOption === 'minutes' ? 'm' : '%' }}
       </input-with-button>
-      <p class="text-2xl">Show</p>
-      <check-box id="showTimer" v-model="settings.show.timer">Timer</check-box>
-      <check-box id="showProgress" v-model="settings.show.progress">Progress</check-box>
-      <check-box id="showClock" v-model="settings.show.clock">Clock</check-box>
-      <check-box id="showSecondsOnClock" v-model="settings.show.secondsOnClock">Seconds on clock</check-box>
+      <p class="text-2xl">Anzeigen</p>
+      <check-box id="showTimer" v-model="settings.show.timer">Countdown</check-box>
+      <check-box id="showProgress" v-model="settings.show.progress">Fortschritt</check-box>
+      <check-box id="showClock" v-model="settings.show.clock">Uhr </check-box>
+      <check-box id="showSecondsOnClock" v-model="settings.show.secondsOnClock">Sekunden bei Uhrzeit</check-box>
       <p class="text-2xl">Audio</p>
-      <check-box id="audioEnabled" v-model="settings.audioEnabled">Enable</check-box>
+      <check-box id="audioEnabled" v-model="settings.audioEnabled">Aktivieren</check-box>
     </card>
     <card class="inline-block border flex flex-col">
       <div class="flex flex-col" style="min-width: 220px">
-        <p class="text-2xl">Colors</p>
-        <p class="text-base">Background</p>
+        <p class="text-2xl">Farben</p>
+        <p class="text-base">Hintergrund</p>
         <color-input v-model="settings.backgroundColor" default-value="#000000"/>
         <input @input="realTimeSettingUpdated" v-model="settings.backgroundColorOpacity" type="range" min="0" max="255">
         <p class="text-base">Text</p>
         <color-input v-model="settings.textColor" default-value="#ffffff"/>
-        <p class="text-base">Text on timer finished</p>
+        <p class="text-base">Countdown vorbei</p>
         <color-input v-model="settings.timerFinishedTextColor" default-value="#ff0000"/>
-        <p class="text-base">Clock</p>
+        <p class="text-base">Uhr</p>
         <color-input v-model="settings.clockColor" default-value="#ffffff"/>
-        <p class="text-base">Clock Text</p>
+        <p class="text-base">Uhr Text</p>
         <color-input v-model="settings.clockTextColor" default-value="#ffffff"/>
-        <p class="text-2xl mt-3">Font</p>
+        <p class="text-2xl mt-3">Schriftart</p>
         <select v-model="settings.font" class="input p-2 text-black">
           <option value="digital-7">digital-7</option>
           <option value="B612">B612</option>

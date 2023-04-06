@@ -55,7 +55,7 @@ module.exports = {
       name: "@electron-forge/publisher-github",
       config: {
         repository: {
-          owner: "CVMEventi",
+          owner: "LukasLabor",
           name: "Countdown"
         }
       }

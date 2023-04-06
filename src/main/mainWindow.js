@@ -6,7 +6,7 @@ export default function createMainWindow (options = {
   width: 920,
   minWidth: 920,
   minHeight: 580,
-  title: 'Countdown Settings'
+  title: 'Einstellungen'
 }) {
   const winHandler = new BrowserWinHandler(options)
 

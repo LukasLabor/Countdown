@@ -2,15 +2,15 @@
   <div class="flex flex-1 gap-2 min-h-0 text-white">
     <card class="inline-block flex flex-col w-[300px]">
       <p class="text-2xl pb-2">HTTP Server</p>
-      <check-box id="httpServerEnabled" v-model="httpServerEnabled">Enable</check-box>
+      <check-box id="httpServerEnabled" v-model="httpServerEnabled">Aktivieren</check-box>
       <p>Port</p>
       <input
         @click="$event.target.select()"
         @focus="$event.target.select()"
         v-model="httpServerPort"
         class="input text-black w-full">
-      <p :class="[isRunning ? 'text-emerald-300' : 'text-red-300']">{{ this.isRunning ? `Server running on port ${currentPort}` : "Server not running" }}</p>
-      <p class="text-sm italic">Last error: {{ this.lastError }}</p>
+      <p :class="[isRunning ? 'text-emerald-300' : 'text-red-300']">{{ this.isRunning ? `Server aktiviert auf Port ${currentPort}` : "Server nicht aktiviert" }}</p>
+      <p class="text-sm italic">Letzter Fehler: {{ this.lastError }}</p>
       <s-button
         :disabled="!this.httpServerEnabled"
         class="uppercase mt-3"

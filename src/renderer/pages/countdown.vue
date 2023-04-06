@@ -28,6 +28,7 @@
       v-if="settings.show.progress"
       class="relative pt-1 px-5"
     >
+  
       <div
         class="overflow-hidden progress-bar mb-4 text-xs flex rounded"
         :class="{
@@ -45,8 +46,11 @@
             'bg-green-500': !isCountingUp && !isReset && !isYellowBar,
             'bg-yellow-500': isYellowBar,
           }"
-        />
+        ></div>
       </div>
+    </div>
+    <div class="text-center text-clock font-digital-clock">
+      <span :style="{color: settings.clockTextColor}">{{ update.infoText }}</span>
     </div>
     <div
       v-if="settings.show.clock"
@@ -80,15 +84,18 @@ export default {
       currentTimeTimerId: null,
       currentTime: dayjs().format('HH:mm'),
       update: {
-        current: 0,
-        of: 0
+        timer: {
+          current: 0,
+          of: 0,
+        },
+        infoText: ''
       },
       settings: store.get('settings', DEFAULT_STORE.defaults.settings)
     }
   },
   computed: {
     time () {
-      const currentTimeInSeconds = dayjs.duration(Math.abs(this.update.current), 'seconds')
+      const currentTimeInSeconds = dayjs.duration(Math.abs(this.update.timer.current), 'seconds')
 
       if (this.settings.showHours) {
         return currentTimeInSeconds.format('HH:mm:ss')
@@ -100,13 +107,13 @@ export default {
       }
     },
     progressBarPercent () {
-      if (this.update.of === 0 || this.update.current === 0) return '100%'
+      if (this.update.timer.of === 0 || this.update.timer.current === 0) return '100%'
       if (this.isCountingUp) return '100%'
-      const percentage = this.update.current * 100 / this.update.of
+      const percentage = this.update.timer.current * 100 / this.update.timer.of
       return `${percentage}%`
     },
     isReset () {
-      return this.update.of === 0 && this.update.current === 0
+      return this.update.timer.of === 0 && this.update.timer.current === 0
     },
     isYellowBar() {
       if (this.isReset || this.isCountingUp) {
@@ -114,19 +121,19 @@ export default {
       }
 
       if (this.settings.yellowAtOption === 'minutes'
-        && this.settings.yellowAtMinutes >= this.update.current / 60) {
+        && this.settings.yellowAtMinutes >= this.update.timer.current / 60) {
         return true;
       }
 
       if (this.settings.yellowAtOption === 'percent'
-        && this.settings.yellowAtPercent >= this.update.of / 100 * this.update.current) {
+        && this.settings.yellowAtPercent >= this.update.timer.of / 100 * this.update.timer.current) {
         return true;
       }
 
       return false;
     },
     isCountingUp () {
-      return this.update.current <= 0
+      return this.update.timer.current <= 0
     },
     timerText () {
       if (this.isCountingUp && !this.isReset) {
@@ -147,7 +154,14 @@ export default {
   mounted () {
     ipcRenderer.on('command', (event, arg) => {
       console.log(arg)
-      this.update = arg
+      switch (arg.action) {
+        case 'timer':
+          this.update.timer = arg.data;
+          break;
+        case 'text':
+          this.update.infoText = arg.data;
+          break;
+      }
     })
     ipcRenderer.on('settings-updated', (event, arg) => {
       store = new Store()

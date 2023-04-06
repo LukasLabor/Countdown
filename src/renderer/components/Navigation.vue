@@ -11,20 +11,20 @@
       :selected="selectedTab === 'settings'"
       @click="$router.replace('/control/settings')"
     >
-      Settings
+      Einstellungen
     </tab-button>
-    <tab-button
+    <!-- <tab-button
       :selected="selectedTab === 'remote'"
       @click="$router.replace('/control/remote')"
     >
-      Remote
-    </tab-button>
+      Fernsteuerung
+    </tab-button> -->
     <tab-button
       last
       :selected="selectedTab === 'windows'"
       @click="$router.replace('/control/windows')"
     >
-      Windows
+      Fenster
     </tab-button>
   </nav>
 </template>

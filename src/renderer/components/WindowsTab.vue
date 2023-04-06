@@ -4,22 +4,21 @@
     <card class="inline-block flex flex-col">
       <div class="flex flex-col gap-2">
         <div class="flex justify-between">
-          <span class="text-2xl">Screen</span>
-          <s-button tiny type="info" @click="getCountdownBounds">GET CURRENT POSITION</s-button>
+          <span class="text-2xl">Bildschirm</span>
+          <s-button tiny type="info" @click="getCountdownBounds">Aktuelle Position</s-button>
         </div>
 
         <div class="inline-flex gap-2">
           <div class="inline-flex flex-col">
-            <p class="text-base">Fullscreen</p>
-            <select v-model="window.fullscreenOn" class="block w-full pl-3 pr-10 py-1.5 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            <p class="text-base">Vollbild</p>
+            <select v-model="window.fullscreenOn" class="block w-full pl-3 pr-10 py-1.5 text-black border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
               <option :value="null">-</option>
               <option
                 v-for="(screen, index) in screens"
                 :key="screen.id"
                 :value="screen.id"
               >
-                Screen {{ index }}
-                ({{ screen.size.width }}x{{ screen.size.height }}{{ screen.internal ? " Internal" : "" }})
+                {{ screen.label }} [{{ index }}] ({{ screen.size.width }}x{{ screen.size.height }}{{ screen.internal ? " Internal" : "" }})
               </option>
             </select>
           </div>
@@ -32,11 +31,11 @@
             <input v-model="window.y" type="number" class="input text-black w-full">
           </div>
           <div class="inline-flex flex-col flex-1">
-            <p class="text-base">Width</p>
+            <p class="text-base">Breite</p>
             <input v-model="window.width" type="number" class="input text-black w-full">
           </div>
           <div class="inline-flex flex-col flex-1">
-            <p class="text-base">Height</p>
+            <p class="text-base">Höhe</p>
             <input v-model="window.height" type="number" class="input text-black w-full">
           </div>
         </div>

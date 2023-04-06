@@ -9,22 +9,22 @@
         class="self-end"
         @click="save"
       >
-        Save
+        Speichern
       </s-button>
-      <card class="bg-white self-end p-0">
+      <!-- <card class="bg-white self-end p-0">
         <button class="block" type="button" @click="openURL('https://cvm.it')">
           <img class="h-10" alt="CVM Logo" src="../assets/images/logo.png" />
         </button>
-      </card>
+      </card> -->
     </div>
     <div v-if="tab === 'main'" class="countdown-tab">
       <div class="flex gap-2">
         <card class="clock-setup justify-center">
-          <div class="uppercase text-white">Set</div>
+          <div class="uppercase text-white">Startwert</div>
           <time-input v-model="totalSeconds" color="white"/>
-          <div class="uppercase mt-2 text-white">Count</div>
+          <div class="uppercase mt-2 text-white">Aktuelle Zeit</div>
           <time-input v-model="countSeconds" color="green" :disabled="true"/>
-          <div class="uppercase mt-2 text-white">Extra</div>
+          <div class="uppercase mt-2 text-white">Zusätzliche Zeit</div>
           <time-input color="red" v-model="extraSeconds" :disabled="true"/>
         </card>
         <card class="control-buttons">
@@ -76,13 +76,15 @@
         </card>
       </div>
       <card class="presets inline-flex gap-2 overflow-x-auto">
-        <s-button
+        <!-- <s-button
           v-for="(preset, index) in settings.presets"
           :key="index" type="info"
           @click="setPresetTime(preset)"
         >
           {{ preset }}
-        </s-button>
+        </s-button> -->
+        <input v-model="infoText" type="text" class="input text-black w-full" placeholder="Text eingeben ...">
+        <s-button tiny type="info" @click="applyInfoText">Übernehmen</s-button>     
       </card>
     </div>
     <settings-tab
@@ -156,6 +158,7 @@ export default {
       screens: [],
       totalSeconds: 0,
       currentSeconds: 0,
+      infoText: '',
       secondsSetOnCurrentTimer: 0,
       timerIsRunning: false,
       selectedTab: 'countdown',
@@ -296,8 +299,11 @@ export default {
     timerTick(seconds) {
       this.currentSeconds = seconds
       ipcRenderer.send('send-to-countdown-window', {
-        current: this.currentSeconds,
-        of: this.$refs.timer.secondsSet
+        action: 'timer',
+        data: {
+          current: this.currentSeconds,
+          of: this.$refs.timer.secondsSet
+        }
       })
 
       const isExpired = this.currentSeconds <= 0;
@@ -348,6 +354,12 @@ export default {
       ipcRenderer.send('send-to-websocket', {
         state: 'Not Running',
       })
+    },
+    applyInfoText() {
+      ipcRenderer.send('send-to-countdown-window', {
+        action: 'text',
+        data: this.infoText
+      });
     },
     setPresetTime(minutes) {
       const secondsPerMinute = 60
@@ -402,7 +414,7 @@ export default {
 <style scoped>
 
 .main-container {
-  height: 100%;
+  min-height: 100%;
   gap: 10px;
   padding: 0 10px 10px 10px;
 }
